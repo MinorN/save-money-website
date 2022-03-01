@@ -27,7 +27,7 @@ import {Component} from 'vue-property-decorator';
 
 @Component
 export default class Number extends Vue {
-  output: string = '';
+  output: string = '0';
 
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement);
@@ -62,9 +62,8 @@ export default class Number extends Vue {
   }
 
   ok() {
-
+    this.$emit('update:value',this.output)
   }
-
 }
 </script>
 
