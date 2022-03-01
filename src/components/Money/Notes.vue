@@ -2,7 +2,7 @@
   <div>
     <label class="notes">
       <span class="name">备注</span>
-      <input :value="value" @input="onInput" type="text" placeholder="在这里输入备注"/>
+      <input v-model="value" type="text" placeholder="在这里输入备注"/>
     </label>
   </div>
 </template>

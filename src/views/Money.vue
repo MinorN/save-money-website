@@ -4,7 +4,7 @@
       <NumberPad/>
       <Types/>
       <Notes/>
-      <Tags/>
+      <Tags :data-source="tags" />
     </Layout>
   </div>
 </template>
@@ -20,7 +20,7 @@ import Notes from '@/components/Money/Notes.vue';
   components: {Notes, Tags, Types, NumberPad}
 })
 export default class Money extends Vue {
-
+  tags= ['衣','食','住','行']
 }
 </script>
 
