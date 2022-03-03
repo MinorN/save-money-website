@@ -4,7 +4,7 @@
       <span class="name">{{ this.fieldName }}</span>
       <input v-model="value"
              type="text"
-             :placeholder="this.placeholder"/>
+             :placeholder="placeholder"/>
     </label>
   </div>
 </template>
@@ -15,7 +15,7 @@ import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class FormItem extends Vue {
-  value = '';
+  @Prop({default:''}) value!:string;
   @Prop({required: true}) fieldName!: string;
   @Prop() placeholder?: string;
 
