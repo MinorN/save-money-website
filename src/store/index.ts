@@ -5,12 +5,18 @@ import createId from '@/lib/idCreator';
 
 Vue.use(Vuex);
 
+type RootType = {
+    recordList: RecordItem[],
+    tagList: Tag[],
+    currentTag?: Tag
+}
 
 const store = new Vuex.Store({
     state: {
         recordList: [] as RecordItem[],
-        tagList: [] as Tag[]
-    },
+        tagList: [] as Tag[],
+        currentTag: undefined
+    } as RootType,
 
     mutations: {
         fetchRecords(state) {
@@ -28,20 +34,21 @@ const store = new Vuex.Store({
         fetchTags(state) {
             state.tagList = JSON.parse(window.localStorage.getItem('recordList') || '[]');
         },
-        createTag(state,name: string) {
+        createTag(state, name: string) {
             const names = state.tagList.map(item => item.name);
             if (names.indexOf(name) >= 0) {
                 window.alert('标签名重复，请重新输入');
-                return 'duplicated';
             }
             const id = createId().toString();
             state.tagList.push({id, name: name});
-            store.commit('saveTags')
+            store.commit('saveTags');
             window.alert('添加成功!');
-            return 'success';
         },
         saveTags(state) {
             window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
+        },
+        setCurrentTag(state,id:string){
+            state.currentTag = state.tagList.filter(t => t.id === id)[0]
         },
 
     }
