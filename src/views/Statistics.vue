@@ -8,7 +8,7 @@
         <ol>
           <li class="record" v-for="item in group.items" :key="item.id">
             <span>{{ tagString(item.tags) }}</span>
-            <span class="notes">{{item.notes}}</span>
+            <span class="notes">{{ item.notes }}</span>
             <span>￥{{ item.amount }}</span>
           </li>
         </ol>
@@ -92,7 +92,8 @@ export default class Statistics extends Vue {
   background: white;
   @extend %item
 }
-.notes{
+
+.notes {
   margin-right: auto;
   margin-left: 16px;
   color: #999;
