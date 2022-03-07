@@ -3,11 +3,17 @@ type RecordItem = {
     notes: string;
     type: string;
     amount: number;
-    createdAT?: Date;
+    createdAT?: string;
 }
 type Tag = {
     id: string
     name: string
+}
+
+type RootType = {
+    recordList: RecordItem[],
+    tagList: Tag[],
+    currentTag?: Tag
 }
 
 type TagListModel = {
