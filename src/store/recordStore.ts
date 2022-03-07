@@ -4,6 +4,7 @@ const localStorageKeyName = 'recordList';
 let data: RecordItem[] | undefined = undefined;
 
 const recordStore= {
+    recordList: data,
     fetchRecords() {
         data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[];
         return data;
@@ -11,11 +12,10 @@ const recordStore= {
     saveRecords() {
         window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));
     },
-    recordList: data,
     createRecord: (record: RecordItem) => {
         const record2: RecordItem = clone(record);
         record2.createdAT = new Date();
-        data?.push(record2);
+        data && data.push(record2);
         recordStore.saveRecords();
     },
 };
