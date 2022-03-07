@@ -3,8 +3,8 @@
     <Tabs class-prefix="type" :value.sync="type" :data-source="recordTypeList"/>
     <Tabs class-prefix="interval" :value.sync="interval" :data-source="intervalList"/>
     <ol>
-      <li v-for="(group,index) in result" :key="index.id">
-        <h3 class="title">{{ group.title }}</h3>
+      <li v-for="group in result" :key="group.title">
+        <h3 class="title">{{ beautify(group.title) }}</h3>
         <ol>
           <li class="record" v-for="item in group.items" :key="item.id">
             <span>{{ tagString(item.tags) }}</span>
@@ -23,11 +23,30 @@ import {Component} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
 import intervalList from '@/constants/intervalList';
 import recordTypeList from '@/constants/recordTypeList';
+import dayjs from 'dayjs';
+
+
 /* eslint-disable */
 @Component({
   components: {Tabs}
 })
 export default class Statistics extends Vue {
+  beautify(string: string) {
+    const day = dayjs(string);
+    const now = dayjs();
+    if (day.isSame(now, 'day')) {
+      return '今天';
+    } else if (day.isSame(now.subtract(1, 'day'),'day')) {
+      return '昨天';
+    } else if (day.isSame(now.subtract(2, 'day'),'day')) {
+      return '前天'
+    }else if(day.isSame(now,'year')){
+      return day.format('M月D日')
+    }else{
+      return day.format('YYYY年M月D日')
+    }
+  }
+
   tagString(tags: Tag[]) {
     return tags.length === 0 ? '无' : tags.join(',');
   }
