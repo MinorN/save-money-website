@@ -62,8 +62,9 @@ export default class Number extends Vue {
   }
 
   ok() {
-    this.$emit('update:value', this.output);
-    this.$emit('submit', this.output);
+    const number= parseFloat(this.output)
+    this.$emit('update:value', number);
+    this.$emit('submit', number);
     this.output = '0';
   }
 }
@@ -71,7 +72,6 @@ export default class Number extends Vue {
 
 <style lang="scss" scoped>
 @import "../../assets/style/helper";
-
 .numberPad {
   .output {
     @extend %clearFix;

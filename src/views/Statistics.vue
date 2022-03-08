@@ -3,7 +3,7 @@
     <Tabs class-prefix="type" :value.sync="type" :data-source="recordTypeList"/>
     <ol>
       <li v-for="(group,index) in groupList" :key="index">
-        <h3 class="title">{{ beautify(group.title) }}</h3>
+        <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
         <ol>
           <li class="record" v-for="item in group.items" :key="item.id">
             <span>{{ tagString(item.tags) }}</span>
@@ -59,10 +59,16 @@ export default class Statistics extends Vue {
     if (recordList.length === 0) {
       return [];
     }
-    const newList = clone(recordList).sort((a, b) => dayjs(b.createdAT).valueOf() - dayjs(a.createdAT).valueOf());
-
-    const result = [{title: dayjs(newList[0].createdAT).format('YYYY-MM-DD'), items: [newList[0]]}];
-    for (let i = 0; i < newList.length; i++) {
+    type Result = {
+      title: string
+      total?: number
+      items: RecordItem[]
+    }[]
+    const newList = clone(recordList)
+        .filter(r => r.type === this.type)
+        .sort((a, b) => dayjs(b.createdAT).valueOf() - dayjs(a.createdAT).valueOf());
+    const result: Result = [{title: dayjs(newList[0].createdAT).format('YYYY-MM-DD'), items: [newList[0]]}];
+    for (let i = 1; i < newList.length; i++) {
       const current = newList[i];
       const last = result[result.length - 1];
       if (dayjs(last.title).isSame(dayjs(current.createdAT), 'day')) {
@@ -71,8 +77,11 @@ export default class Statistics extends Vue {
         result.push({title: dayjs(current.createdAT).format('YYYY-MM-DD'), items: [current]});
       }
     }
-    return result;
+    result.map(group => {
+      group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+    });
 
+    return result;
   }
 
   beforeCreate() {
