@@ -13,7 +13,8 @@ type Tag = {
 type RootType = {
     recordList: RecordItem[],
     tagList: Tag[],
-    currentTag?: Tag
+    createRecordError: Error | null
+    currentTag?: Tag,
 }
 
 type TagListModel = {
