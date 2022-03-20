@@ -6,6 +6,9 @@ module.exports = defineConfig({
 })
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+      ? '/save-money-website-1/'
+      : '/',
   lintOnSave: false,
   chainWebpack: config => {
     const dir = path.resolve(__dirname, 'src/assets/icons')
@@ -19,3 +22,4 @@ module.exports = {
     config.module.rule('svg').exclude.add(dir) // 其他 svg loader 排除 icons 目录
   }
 }
+
