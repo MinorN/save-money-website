@@ -13,6 +13,7 @@ type Tag = {
 type RootType = {
     recordList: RecordItem[],
     tagList: Tag[],
+    createTagError: Error | null,
     createRecordError: Error | null
     currentTag?: Tag,
 }
